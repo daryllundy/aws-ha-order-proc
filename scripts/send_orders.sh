@@ -10,7 +10,8 @@ for i in $(seq 1 "$COUNT"); do
     --queue-url "$QUEUE_URL" \
     --message-group-id "orders" \
     --message-deduplication-id "$order_id" \
-    --message-body "{\"order_id\":\"$order_id\",\"total\":$i}"
+    --message-body "{\"order_id\":\"$order_id\",\"total\":$i}" \
+	--region "${AWS_REGION:-us-east-1}"
 done
 
 echo "queued $COUNT orders"
