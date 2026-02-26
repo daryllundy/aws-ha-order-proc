@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+if command -v dnf >/dev/null 2>&1; then
+  dnf -y install ansible-core git python3-pip
+else
+  yum -y install ansible git python3-pip
+fi
+
+ansible-pull -U ${config_repo_url} -C ${config_repo_ref} \
+  -i localhost, -c local ansible/worker.yml \
+  -e aws_region=${aws_region} \
+  -e queue_url=${queue_url} \
+  -e ddb_table=${ddb_table}
